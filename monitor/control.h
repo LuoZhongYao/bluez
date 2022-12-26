@@ -19,5 +19,6 @@ int control_rtt(char *jlink, char *rtt);
 int control_tracing(void);
 void control_disable_decoding(void);
 void control_filter_index(uint16_t index);
+void control_enable_slip(void);
 
 void control_message(uint16_t opcode, const void *data, uint16_t size);
