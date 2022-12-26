@@ -59,6 +59,7 @@ static void usage(void)
 		"\t-i, --index <num>      Show only specified controller\n"
 		"\t-d, --tty <tty>        Read data from TTY\n"
 		"\t-B, --tty-speed <rate> Set TTY speed (default 115200)\n"
+		"\t-l, --slip             Use slip packets\n"
 		"\t-V, --vendor <compid>  Set default company identifier\n"
 		"\t-M, --mgmt             Open channel for mgmt events\n"
 		"\t-t, --time             Show time instead of time offset\n"
@@ -86,6 +87,7 @@ static const struct option main_options[] = {
 	{ "index",     required_argument, NULL, 'i' },
 	{ "tty",       required_argument, NULL, 'd' },
 	{ "tty-speed", required_argument, NULL, 'B' },
+	{ "slip",      no_argument,       NULL, 'l' },
 	{ "vendor",    required_argument, NULL, 'V' },
 	{ "mgmt",      no_argument,       NULL, 'M' },
 	{ "no-time",   no_argument,       NULL, 'N' },
@@ -131,8 +133,8 @@ int main(int argc, char *argv[])
 		struct sockaddr_un addr;
 
 		opt = getopt_long(argc, argv,
-				"r:w:a:s:p:i:d:B:V:MNtTSAIE:PJ:R:C:c:vh",
-				main_options, NULL);
+					"r:w:a:s:p:i:d:B:V:lMNtTSAIE:PJ:R:C:c:vh",
+					main_options, NULL);
 		if (opt < 0)
 			break;
 
@@ -169,6 +171,9 @@ int main(int argc, char *argv[])
 			break;
 		case 'd':
 			tty = optarg;
+			break;
+		case 'l':
+			control_enable_slip();
 			break;
 		case 'B':
 			tty_speed = tty_get_speed(atoi(optarg));
